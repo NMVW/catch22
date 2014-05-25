@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
+			//getFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
 		//playFreq(20000);
@@ -108,15 +108,16 @@ public class MainActivity extends Activity {
 		int format = AudioFormat.ENCODING_PCM_16BIT;
 		int sampleSize = 44100;
 		int bufferSize = AudioRecord.getMinBufferSize(sampleSize, channel_config, format);
-		AudioRecord audioInput = new AudioRecord(AudioSource.MIC, sampleSize, channel_config, format, bufferSize);
+		AudioRecord audioInput = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, sampleSize, channel_config, format, bufferSize);
 		
 		short[] audioBuffer = new short[bufferSize];
-		
+		int num_samples = 1;
 		while(true)
 		{
 			double sum20 = 0;
 			double sum19 = 0;
-			for (int i = 0; i < 1; i++)
+			double sum195 = 0;
+			for (int i = 0; i < num_samples; i++)
 			{
 				audioInput.startRecording();
 				audioInput.read(audioBuffer, 0, bufferSize);
@@ -146,33 +147,38 @@ public class MainActivity extends Activity {
 			    }
 			    Complex[] fftArray = FFT.fft(fftTempArray);
 			
-			    sum20 += Math.log10(Math.sqrt(fftArray[3715].re()*fftArray[3715].re()+fftArray[3715].im()*fftArray[3715].im()));
-			    sum20 += Math.log10(Math.sqrt(fftArray[3714].re()*fftArray[3714].re()+fftArray[3714].im()*fftArray[3714].im()));
-			    sum20 += Math.log10(Math.sqrt(fftArray[3716].re()*fftArray[3716].re()+fftArray[3716].im()*fftArray[3716].im()));
-
+//			    sum20 += (Math.sqrt(fftArray[3715].re()*fftArray[3715].re()+fftArray[3715].im()*fftArray[3715].im()));
+//			    sum20 += (Math.sqrt(fftArray[3714].re()*fftArray[3714].re()+fftArray[3714].im()*fftArray[3714].im()));
+//			    sum20 += (Math.sqrt(fftArray[3716].re()*fftArray[3716].re()+fftArray[3716].im()*fftArray[3716].im()));
+			    sum20 += (getMagnitude(fftArray[3714]) + getMagnitude(fftArray[3715]) + getMagnitude(fftArray[3716]))/3.0; 
 			    
-			    sum19 += Math.log10(Math.sqrt(fftArray[3530].re()*fftArray[3530].re()+fftArray[3530].im()*fftArray[3530].im()));
-			    sum19 += Math.log10(Math.sqrt(fftArray[3529].re()*fftArray[3529].re()+fftArray[3529].im()*fftArray[3529].im()));
-			    sum19 += Math.log10(Math.sqrt(fftArray[3531].re()*fftArray[3531].re()+fftArray[3531].im()*fftArray[3531].im()));
+//			    sum19 += (Math.sqrt(fftArray[3530].re()*fftArray[3530].re()+fftArray[3530].im()*fftArray[3530].im()));
+//			    sum19 += (Math.sqrt(fftArray[3529].re()*fftArray[3529].re()+fftArray[3529].im()*fftArray[3529].im()));
+//			    sum19 += (Math.sqrt(fftArray[3531].re()*fftArray[3531].re()+fftArray[3531].im()*fftArray[3531].im()));
+			    sum20 += (getMagnitude(fftArray[3529]) + getMagnitude(fftArray[3530]) + getMagnitude(fftArray[3531]))/3.0; 
+
+			    sum195 += getMagnitude(fftArray[3622]);
 			
-//			Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3715/2)), Double.toString(sum20/1.0));
-//			Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3530/2)), Double.toString(sum19/1.0));
 			
 			//Log.d("Hz: 20000" , Double.toString(sum20/3.0));
 			//Log.d("Hz: 19000", Double.toString(sum19/3.0));
 			
 		
 	    
-	  for(int i1 = 3712; i1 < 3718; i1++)
-	    {
-	    	//Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3715/2)) +  " Index: " + Integer.toString(3715), Double.toString(Math.sqrt(fftArray[3715].re()*fftArray[3715].re()+fftArray[3715].im()*fftArray[3715].im())) );
-	    	//Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3530/2)) +  " Index: " + Integer.toString(3530), Double.toString(Math.sqrt(fftArray[3530].re()*fftArray[3530].re()+fftArray[3530].im()*fftArray[3530].im())) );
-		  Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * i1/2)) +  " Index: " + Integer.toString(i1), Double.toString(Math.log10(Math.sqrt(fftArray[i1].re()*fftArray[i1].re()+fftArray[i1].im()*fftArray[i1].im()))) );
-	    	
-	    				
-	    }
+//	  for(int i1 = 3712; i1 < 3718; i1++)
+//	    {
+//	    	//Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3715/2)) +  " Index: " + Integer.toString(3715), Double.toString(Math.sqrt(fftArray[3715].re()*fftArray[3715].re()+fftArray[3715].im()*fftArray[3715].im())) );
+//	    	//Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3530/2)) +  " Index: " + Integer.toString(3530), Double.toString(Math.sqrt(fftArray[3530].re()*fftArray[3530].re()+fftArray[3530].im()*fftArray[3530].im())) );
+//		  Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * i1/2)) +  " Index: " + Integer.toString(i1), Double.toString(Math.log10(Math.sqrt(fftArray[i1].re()*fftArray[i1].re()+fftArray[i1].im()*fftArray[i1].im()))) );
+//	    	
+//	    				
+//	    }
 		
 	}
+//			Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3715/2)), Double.toString(Math.log10(sum20/num_samples)));
+//			Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3530/2)), Double.toString(Math.log10(sum19/num_samples)));
+			Log.d("Hz: " + Double.toString((( (1.0 * 44100) / (1.0 * bufferSize) ) * 3622/2)), Double.toString(Math.log10(sum195/num_samples)));
+//			
 			
 		}
 		
@@ -198,6 +204,10 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	double getMagnitude(Complex a)
+	{
+		return Math.sqrt(a.re()*a.re()+a.im()*a.im());
+	}
 	
 	
 	void playFreq(float frequency)
@@ -226,18 +236,18 @@ public class MainActivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-	}
+//	public static class PlaceholderFragment extends Fragment {
+//
+//		public PlaceholderFragment() {
+//		}
+//
+//		@Override
+//		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//				Bundle savedInstanceState) {
+//			View rootView = inflater.inflate(R.layout.fragment_main, container,
+//					false);
+//			return rootView;
+//		}
+//	}
 
 }
