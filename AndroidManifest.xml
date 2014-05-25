@@ -26,5 +26,8 @@
         <activity android:name="com.example.fishfishfish.ProfileActivity"></activity>
         <activity android:name="com.example.fishfishfish.GameActivity"></activity>
     </application>
+    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
