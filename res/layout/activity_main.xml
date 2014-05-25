@@ -1,8 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.fishfishfish.MainActivity"
-    tools:ignore="MergeRootFrame" />
-
+    >
+<TextView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="FISH FISH FISH \n\n Hold volume down button to Cast!"
+    android:padding="8dp"
+    android:textColor="#FFFFFF"
+    />
+<Button
+ android:id="@+id/buttonLure"
+ android:layout_width="fill_parent"
+ android:layout_height="wrap_content"
+ android:text="Select Lure"/>
+<Button
+ android:id="@+id/buttonTackle"
+ android:layout_width="fill_parent"
+ android:layout_height="wrap_content"
+ android:text="Tacklebox"/>
+<Button
+ android:id="@+id/buttonPlay"
+ android:layout_width="fill_parent"
+ android:layout_height="wrap_content"
+ android:text="Cast Line"/>
+</LinearLayout>
