@@ -3,6 +3,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tackle_inboat"
+    
     tools:context="com.example.fishfishfish.MainActivity"
     tools:ignore="MergeRootFrame" />
 
