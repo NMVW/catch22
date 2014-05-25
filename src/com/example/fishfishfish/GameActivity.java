@@ -11,6 +11,7 @@ public class GameActivity extends Activity {
 	    super.onCreate(savedInstanceState);
 	
 	    // TODO Auto-generated method stub
+	    // Hi this is a change lol
 	}
 
 }
