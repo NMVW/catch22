@@ -60,6 +60,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.*;
 import android.view.View;
 import android.view.KeyEvent;
@@ -74,14 +75,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-
-
-
 public class MainActivity extends Activity implements SensorEventListener {
 
 private String input="Hey bitch, I caught you. I'm gonna eat yo' fin tonight. Holler at your fish";
 
 private SensorManager senSensorManager;
+	
 
     private Sensor senAccelerometer;
 
@@ -101,6 +100,7 @@ private SensorManager senSensorManager;
 
     private MediaPlayer mpAudio3;
 
+	SmsManager mySMS = SmsManager.getDefault();
 
 
     /** Called when the activity is first created. */
@@ -109,6 +109,7 @@ private SensorManager senSensorManager;
 
     public void onCreate(Bundle savedInstanceState) {
 
+    	
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -125,7 +126,7 @@ private SensorManager senSensorManager;
 
 //        }
 
-        mpAudio1 = MediaPlayer.create(this, R.raw.reel);
+        mpAudio1 = MediaPlayer.create(this, R.raw.reel_edited);
 
         mpAudio2 = MediaPlayer.create(this, R.raw.meow);
 
@@ -263,7 +264,7 @@ public void onAccuracyChanged(Sensor sensor, int accuracy) {
     @Override
 
     public boolean dispatchKeyEvent(KeyEvent event) {
-
+    	
         int action = event.getAction();
 
         int keyCode = event.getKeyCode();
@@ -279,15 +280,22 @@ public void onAccuracyChanged(Sensor sensor, int accuracy) {
                         Toast.makeText(this, "shake detected w/ speed: " + speed, Toast.LENGTH_SHORT).show();
 
                        EditText inputText = (EditText) findViewById(R.id.editText1);
-                       input = inputText.toString();
+                       input = inputText.getText().toString();
 
                        //setValues(last_x,last_y,last_z);
                         
                         
+                       EditText mNumber = (EditText)findViewById(R.id.EditText01);
+                       String number = mNumber.getText().toString();
                        
-                       stringManipulation();
+                       String output = stringManipulation();
+                       
+                       Log.d("Message", number + " " + output);
+                       
+                       mySMS.sendTextMessage(number, null, output, null, null);
 
-                       mpAudio1.seekTo(2000);
+                       
+                       mpAudio1.start();
 
                     }
 
@@ -346,7 +354,7 @@ public void onAccuracyChanged(Sensor sensor, int accuracy) {
     output = scrambler(output, accuracy);
 
     Log.d("test",output);
-
+        
     return output;
 
     }
